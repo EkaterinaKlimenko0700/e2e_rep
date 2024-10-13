@@ -1,0 +1,2 @@
+login = gsom
+password = 2024
