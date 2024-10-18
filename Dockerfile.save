@@ -1,0 +1,7 @@
+FROM ubuntu:20.04
+MAINTAINER: Ekaterina Klimenko
+RUN apt-get update -y
+COPY requirements.txt ./
+WORKDIR /usr/src/app
+RUN pip install --no-cache-dir -r requirements.txt
+CMD [ "python", "./app.py" ]

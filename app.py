@@ -1,6 +1,7 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
 import numpy as np
 import joblib
+
 app = Flask(__name__)
 
 model = joblib.load ("f.joblib")
@@ -15,15 +16,13 @@ def predict_price():
     rooms = args.get('rooms', default = -1, type=int)
     area = args.get ('area', default = -1, type=float)
     renovation = args.get('renovation', default = -1, type=int)
-
-    if floor == -1 or rooms == -1 or area == -1 or renovation == -1:
-        return jsonify({"success":0, "error":"floor, rooms ,area, renovation are required"}),500
     
     x = np.array([floor, rooms, area, renovation]).reshape (1,-1)
     x = sc_x.transform(x)
-    result = model.predict(x)
 
+    result = model.predict(x)
     result = sc_y.inverse_transform(result.reshape (1, -1))
+
     return str(result[0][0])
 
 if __name__ == '__main__':
